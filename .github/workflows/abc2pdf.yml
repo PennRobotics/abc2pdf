@@ -1,0 +1,32 @@
+name: Conversion of ABC notation to PDF using Action
+
+on:
+  workflow_dispatch:
+    inputs:
+      filename:
+        type: string
+        description: ABC name without path or extension
+        required: true
+
+jobs:
+  abctopdf:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Check for input file
+        run: |
+            [ -e "in/${{ github.event.inputs.filename }}.abc" ] || exit 1
+
+      - name: Create output directory
+        run: mkdir -p out
+
+      - name: ABC to PDF
+        uses: PennRobotics/abc2pdf-action@first-nonworking-draft
+        with:
+          input: in/${{ github.event.inputs.filename }}.abc
+          output: out/${{ github.event.inputs.filename }}.pdf
+
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Save generated PDF
