@@ -1,4 +1,4 @@
-name: Conversion of ABC notation to PDF using Action
+name: Convert ABC to PDF (Action)
 
 on:
   workflow_dispatch:
@@ -22,7 +22,7 @@ jobs:
         run: mkdir -p out
 
       - name: ABC to PDF
-        uses: PennRobotics/abc2pdf-action@first-nonworking-draft
+        uses: PennRobotics/abc2pdf-action@first-nonworking-draft-bugfix
         with:
           input: in/${{ github.event.inputs.filename }}.abc
           output: out/${{ github.event.inputs.filename }}.pdf
